@@ -1,0 +1,20 @@
+{
+	"ImportPath": "github.com/itspage/gofetch",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v67",
+	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/cli",
+			"Comment": "v1.17.0-16-g7f0ca9a",
+			"Rev": "7f0ca9a34958d6702ac8f38530d19001fa5b1560"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html",
+			"Rev": "cd8c2701a5e10f044db915e65eac68f738399d22"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html/atom",
+			"Rev": "cd8c2701a5e10f044db915e65eac68f738399d22"
+		}
+	]
+}
