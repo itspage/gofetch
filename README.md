@@ -27,7 +27,7 @@ go test ./...
 
 # TODO
 
-1 The generic doParse function streams the results on a channel but the Product and ProductListParser
+- The generic doParse function streams the results on a channel but the Product and ProductListParser
 doesn't make use of this to return results as they are streamed
-1 Only the first page of product results will be fetched
-1 The ProductParser and ProductListParser should conform to an interface
+- Only the first page of product results will be fetched
+- The ProductParser and ProductListParser should conform to an interface
