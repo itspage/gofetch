@@ -2,10 +2,10 @@ package product
 
 import "encoding/json"
 
-type Model struct{}
+type Model interface{}
 
-func (p *ProductList) JSON() string {
-	b, err := json.MarshalIndent(p, "", "    ")
+func JSON(m Model) string {
+	b, err := json.MarshalIndent(m, "", "    ")
 	if err != nil {
 		return "{}"
 	}

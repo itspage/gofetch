@@ -8,7 +8,6 @@ import (
 )
 
 type ProductList struct {
-	Model
 	Results  []*Product `json:"results"`
 	Total    float64    `json:"-"`
 	TotalStr string     `json:"total"`

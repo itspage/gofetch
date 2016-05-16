@@ -10,7 +10,6 @@ import (
 )
 
 type Product struct {
-	Model
 	Title        string  `json:"title"`
 	Size         string  `json:"size"`
 	UnitPrice    float64 `json:"-"`

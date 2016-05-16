@@ -38,6 +38,6 @@ func run(c *cli.Context) error {
 	if err != nil {
 		fmt.Println("Download failed", err.Error())
 	}
-	fmt.Println(productList.JSON())
+	fmt.Println(product.JSON(productList))
 	return nil
 }
