@@ -1,6 +1,7 @@
 package product
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -32,7 +33,7 @@ func TestNewProductListFromDownloader(t *testing.T) {
 	}
 
 	expected := "12.60"
-	if pl.TotalStr != expected {
+	if fmt.Sprintf("%.2f", pl.Total) != expected {
 		t.Errorf("Total is %v, want %v", pl.Total, expected)
 	}
 }

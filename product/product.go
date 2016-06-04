@@ -1,6 +1,7 @@
 package product
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -10,11 +11,10 @@ import (
 )
 
 type Product struct {
-	Title        string  `json:"title"`
-	Size         string  `json:"size"`
-	UnitPrice    float64 `json:"-"`
-	UnitPriceStr string  `json:"unit_price"`
-	Description  string  `json:"description"`
+	Title       string
+	Size        string
+	UnitPrice   float64
+	Description string
 }
 
 // NewProductFromDownloader takes a downloader and builds a Product struct
@@ -37,11 +37,19 @@ func NewProductFromDownloader(dl downloader.Downloader, url string) (*Product, e
 	}
 	// Return new Product
 	p := &Product{
-		Title:        results["title"],
-		Size:         fmt.Sprintf("%.2fkb", float64(content.Length) / 1024),
-		UnitPrice:    price,
-		UnitPriceStr: fmt.Sprintf("%.2f", price),
-		Description:  results["description"],
+		Title:       results["title"],
+		Size:        fmt.Sprintf("%.2fkb", float64(content.Length)/1024),
+		UnitPrice:   price,
+		Description: results["description"],
 	}
 	return p, nil
+}
+
+func (p Product) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]interface{}{
+		"title":       p.Title,
+		"size":        p.Size,
+		"unit_price":  fmt.Sprintf("%.2f", p.UnitPrice),
+		"description": p.Description,
+	})
 }

@@ -1,6 +1,7 @@
 package product
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/itspage/gofetch/downloader"
@@ -8,11 +9,9 @@ import (
 )
 
 type ProductList struct {
-	Results  []*Product `json:"results"`
-	Total    float64    `json:"-"`
-	TotalStr string     `json:"total"`
+	Results []*Product
+	Total   float64
 }
-
 
 // NewProductListFromDownloader takes a URL and will search this URL for any links to a product.
 // For each product, the link is followed and the product details are downloaded.
@@ -57,8 +56,12 @@ func NewProductListFromDownloader(dl downloader.Downloader, url string) (*Produc
 		}
 	}
 
-	// Convert float total to something more presentable
-	pList.TotalStr = fmt.Sprintf("%.2f", pList.Total)
-
 	return pList, nil
+}
+
+func (p ProductList) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]interface{}{
+		"results": p.Results,
+		"total":   fmt.Sprintf("%.2f", p.Total),
+	})
 }
