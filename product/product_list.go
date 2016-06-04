@@ -24,27 +24,36 @@ func NewProductListFromDownloader(dl downloader.Downloader, url string) (*Produc
 	}
 
 	parser := new(parser.ProductListParser)
-	urls := parser.Parse(content.Data)
-
-	// Parse the product list
 	pList := new(ProductList)
-
 	products := make(chan *Product)
 	errs := make(chan error)
 
-	// Concurrently fetch each product
-	for _, url := range urls {
-		go func(url string) {
-			p, err := NewProductFromDownloader(dl, url)
-			if err != nil {
-				errs <- err
+	urls := parser.Parse(content.Data)
+	urlCount := 0
+
+	outer:
+	for {
+		select {
+		case url := <- urls:
+			if url != "" {
+				urlCount++
+				// Go fetch this Product
+				go func(url string) {
+					p, err := NewProductFromDownloader(dl, url)
+					if err != nil {
+						errs <- err
+					}
+					products <- p
+				}(url)
+			} else {
+				// Received all URLs
+				break outer
 			}
-			products <- p
-		}(url)
+		}
 	}
 
 	// Collect product results
-	for i := 0; i < len(urls); i++ {
+	for i := 0; i < urlCount; i++ {
 		select {
 		case p := <-products:
 			if p != nil {
